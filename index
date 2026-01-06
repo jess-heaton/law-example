@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Adanac AI — Demo</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #fff;
+    color: #111;
+    min-height: 100vh;
+  }
+
+  /* Bottom text bubble trigger */
+  .chat-trigger {
+    position: fixed;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 32px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 7px;
+    height: 15px;
+    background: #fff;
+    animation: blink 0.8s infinite;
+  }
+
+  @keyframes blink {
+    0%, 45% { opacity: 1; }
+    50%, 95% { opacity: 0; }
+  }
+
+  /* Fullscreen modal */
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.98);
+    z-index: 9999;
+  }
+
+  .modal.active {
+    display: block;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 26px;
+    font-size: 28px;
+    cursor: pointer;
+    opacity: 0.4;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Trigger bubble -->
+<div class="chat-trigger" onclick="openChat()">
+  Ask ChatGPT<span class="cursor"></span>
+</div>
+
+<!-- Fullscreen chatbot modal (Voiceflow auto-renders inside this) -->
+<div id="chat-modal" class="modal">
+  <div class="modal-close" onclick="closeChat()">&times;</div>
+</div>
+
+<script>
+  const modal = document.getElementById("chat-modal");
+
+  function openChat() {
+    modal.classList.add("active");
+  }
+
+  function closeChat() {
+    modal.classList.remove("active");
+  }
+</script>
+
+<!-- Load the bot normally, but no widget button is shown -->
+<script type="text/javascript">
+  (function(d, t) {
+      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { projectID: '695ce7fcb0a37ea269258fff' },
+          url: 'https://general-runtime.voiceflow.com',
+          versionID: 'production'
+        });
+      }
+      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
+      v.type = "text/javascript";
+      s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+</script>
+
+<!-- Hide the default Voiceflow launcher button -->
+<style>
+  vf-launcher { display: none !important; }
+</style>
+
+</body>
+</html>
