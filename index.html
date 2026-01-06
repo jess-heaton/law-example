@@ -33,7 +33,7 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            z-index: 999;
+            z-index: 999999;
         }
 
         .chat-bubble:hover {
@@ -63,11 +63,6 @@
             }
         }
 
-        /* Hide default Voiceflow button */
-        #voiceflow-chat {
-            display: none !important;
-        }
-
         /* Responsive design */
         @media (max-width: 768px) {
             .chat-bubble {
@@ -92,6 +87,7 @@
         (function(d, t) {
             var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
             v.onload = function() {
+                // Load the widget
                 window.voiceflow.chat.load({
                     verify: { projectID: '695ce7fcb0a37ea269258fff' },
                     url: 'https://general-runtime.voiceflow.com',
@@ -99,13 +95,18 @@
                     voice: { url: "https://runtime-api.voiceflow.com" }
                 });
 
-                // Custom button click handler
-                document.getElementById('customChatButton').addEventListener('click', function() {
-                    window.voiceflow.chat.open();
-                });
+                // Wait a moment for widget to fully initialize, then hide the default launcher
+                setTimeout(function() {
+                    // Hide the default Voiceflow launcher button
+                    window.voiceflow.chat.hide();
+                    
+                    // Add click handler to custom button
+                    document.getElementById('customChatButton').addEventListener('click', function() {
+                        window.voiceflow.chat.open();
+                    });
+                }, 500);
             }
-            v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-            v.type = "text/javascript";
+            v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript";
             s.parentNode.insertBefore(v, s);
         })(document, 'script');
     </script>
